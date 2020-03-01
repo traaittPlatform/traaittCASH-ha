@@ -4,7 +4,7 @@
 
 'use strict'
 
-const traaittPlatformdRPC = require('traaittplatform-rpc').traaittPlatformd
+const traaittCASHdRPC = require('traaittcash-rpc').traaittCASHd
 const WebSocket = require('./lib/websocket.js')
 const pty = require('node-pty')
 const util = require('util')
@@ -23,9 +23,9 @@ const daemonResponses = {
 }
 const blockTargetTime = 144
 
-const traaittPlatformd = function (opts) {
+const traaittCASHd = function (opts) {
   opts = opts || {}
-  if (!(this instanceof traaittPlatformd)) return new traaittPlatformd(opts)
+  if (!(this instanceof traaittCASHd)) return new traaittCASHd(opts)
 
   /*
     This is NOT where you set your options at. If you're changing
@@ -42,7 +42,7 @@ const traaittPlatformd = function (opts) {
   this.enableWebSocket = (typeof opts.enableWebSocket === 'undefined') ? false : opts.enableWebSocket
   this.webSocketPassword = opts.webSocketPassword || false
 
-  // Begin traaittPlatformd options
+  // Begin traaittCASHd options
   this.path = opts.path || path.resolve(__dirname, './traaittCASHd' + ((os.platform() === 'win32') ? '.exe' : ''))
   this.dataDir = opts.dataDir || path.resolve(os.homedir(), './.traaittCASH')
   this.logFile = opts.logFile || path.resolve(__dirname, './traaittCASHd.log')
@@ -122,9 +122,9 @@ const traaittPlatformd = function (opts) {
     }
   })
 }
-inherits(traaittPlatformd, EventEmitter)
+inherits(traaittCASHd, EventEmitter)
 
-traaittPlatformd.prototype.start = function () {
+traaittCASHd.prototype.start = function () {
   var databaseLockfile = path.resolve(util.format('%s/DB/LOCK', this.dataDir))
   if (fs.existsSync(databaseLockfile)) {
     this.emit('error', 'Database LOCK file exists...')
@@ -150,7 +150,7 @@ traaittPlatformd.prototype.start = function () {
       return false
     }
   }
-  this.emit('info', 'Attempting to start traaittplatformd-ha...')
+  this.emit('info', 'Attempting to start traaittcashd-ha...')
   if (!fs.existsSync(this.path)) {
     this.emit('error', '************************************************')
     this.emit('error', util.format('%s could not be found', this.path))
@@ -218,7 +218,7 @@ traaittPlatformd.prototype.start = function () {
   this.emit('start', util.format('%s%s', this.path, args.join(' ')))
 }
 
-traaittPlatformd.prototype.stop = function () {
+traaittCASHd.prototype.stop = function () {
   // If we are currently running our checks, it's a good idea to stop them before we go kill the child process
   if (this.checkDaemon) {
     clearInterval(this.checkDaemon)
@@ -233,11 +233,11 @@ traaittPlatformd.prototype.stop = function () {
   }, (this.timeout * 2))
 }
 
-traaittPlatformd.prototype.write = function (data) {
+traaittCASHd.prototype.write = function (data) {
   this._write(util.format('%s\r', data))
 }
 
-traaittPlatformd.prototype._checkChildStdio = function (data) {
+traaittCASHd.prototype._checkChildStdio = function (data) {
   if (data.indexOf(daemonResponses.started) !== -1) {
     this.emit('started')
   } else if (data.indexOf(daemonResponses.help) !== -1) {
@@ -253,7 +253,7 @@ traaittPlatformd.prototype._checkChildStdio = function (data) {
   }
 }
 
-traaittPlatformd.prototype._triggerDown = function () {
+traaittCASHd.prototype._triggerDown = function () {
   if (!this.firstCheckPassed) return
   if (!this.trigger) {
     this.trigger = setTimeout(() => {
@@ -262,7 +262,7 @@ traaittPlatformd.prototype._triggerDown = function () {
   }
 }
 
-traaittPlatformd.prototype._triggerUp = function () {
+traaittCASHd.prototype._triggerUp = function () {
   if (!this.firstCheckPassed) this.firstCheckPassed = true
   if (this.trigger) {
     clearTimeout(this.trigger)
@@ -270,7 +270,7 @@ traaittPlatformd.prototype._triggerUp = function () {
   }
 }
 
-traaittPlatformd.prototype._checkServices = function () {
+traaittCASHd.prototype._checkServices = function () {
   if (!this.synced) {
     this.synced = true
     this.checkDaemon = setInterval(() => {
@@ -304,7 +304,7 @@ traaittPlatformd.prototype._checkServices = function () {
   }
 }
 
-traaittPlatformd.prototype._checkRpc = function () {
+traaittCASHd.prototype._checkRpc = function () {
   return Promise.all([
     this.api.info(),
     this.api.height()
@@ -318,7 +318,7 @@ traaittPlatformd.prototype._checkRpc = function () {
     }).catch(err => { throw new Error(util.format('Daemon is not passing checks...: %s', err)) })
 }
 
-traaittPlatformd.prototype._checkDaemon = function () {
+traaittCASHd.prototype._checkDaemon = function () {
   return new Promise((resolve, reject) => {
     this.help = false
     this.write('help')
@@ -329,11 +329,11 @@ traaittPlatformd.prototype._checkDaemon = function () {
   })
 }
 
-traaittPlatformd.prototype._write = function (data) {
+traaittCASHd.prototype._write = function (data) {
   this.child.write(data)
 }
 
-traaittPlatformd.prototype._buildargs = function () {
+traaittCASHd.prototype._buildargs = function () {
   var args = ''
   if (this.dataDir) args = util.format('%s --data-dir %s', args, this.dataDir)
   if (this.logFile) args = util.format('%s --log-file %s', args, this.logFile)
@@ -385,15 +385,15 @@ traaittPlatformd.prototype._buildargs = function () {
   return args.split(' ')
 }
 
-traaittPlatformd.prototype._setupAPI = function () {
-  this.api = new traaittPlatformdRPC({
+traaittCASHd.prototype._setupAPI = function () {
+  this.api = new traaittCASHdRPC({
     host: this.rpcBindIp,
     port: this.rpcBindPort,
     timeout: this.timeout
   })
 }
 
-traaittPlatformd.prototype._setupWebSocket = function () {
+traaittCASHd.prototype._setupWebSocket = function () {
   if (this.enableWebSocket) {
     this.webSocket = new WebSocket({
       port: (this.rpcBindPort + 1),
@@ -491,7 +491,7 @@ traaittPlatformd.prototype._setupWebSocket = function () {
   }
 }
 
-traaittPlatformd.prototype._registerWebSocketClientEvents = function (socket) {
+traaittCASHd.prototype._registerWebSocketClientEvents = function (socket) {
   var that = this
   var events = Object.getPrototypeOf(this.api)
   events = Object.getOwnPropertyNames(events).filter((f) => {
@@ -532,4 +532,4 @@ function precisionRound (number, precision) {
   return Math.round(number * factor) / factor
 }
 
-module.exports = traaittPlatformd
+module.exports = traaittCASHd

@@ -1,8 +1,8 @@
-[![NPM](https://nodei.co/npm/traaittplatformd-ha.png?downloads=true&stars=true)](https://nodei.co/npm/traaittplatformd-ha/)
+[![NPM](https://nodei.co/npm/traaittcashd-ha.png?downloads=true&stars=true)](https://nodei.co/npm/traaittcashd-ha/)
 
 [![Build Status](https://travis-ci.org/brandonlehmann/turtlecoind-ha.png?branch=master)](https://travis-ci.org/brandonlehmann/turtlecoind-ha) [![Build Status](https://ci.appveyor.com/api/projects/status/github/brandonlehmann/turtlecoind-ha?branch=master&svg=true)](https://ci.appveyor.com/project/brandonlehmann/turtlecoind-ha/branch/master)
 
-# traaittPlatformd High-Availability Daemon Wrapper
+# traaittCASHd High-Availability Daemon Wrapper
 
 This project is designed to wrap the TurtleCoind daemon on a *nix system and monitor it for hangups, locks, fork, or other events that cause the daemon to stop responding to requests in an accurate manner.
 
@@ -27,20 +27,20 @@ N/A
 ## Dependencies
 
 * [NodeJS v8.x](https://nodejs.org/)
-* [traaittPlatformd](https://github.com/traaittplatform/traaittplatform/releases) v0.8.4 or higher
+* [traaittCASHd](https://github.com/traaittplatform/traaittcash/releases) v0.8.4 or higher
 
 ## Easy Start
 
-You *must* copy ```traaittPlatformd``` into the ```traaittplatformd-ha``` folder for the easy start process to occur.
+You *must* copy ```traaittCASHd``` into the ```traaittcashd-ha``` folder for the easy start process to occur.
 
 ```bash
-git clone https://github.com/traaittplatform/traaittplatform-highavailability.git highavailability
+git clone https://github.com/traaittplatform/traaittcash-highavailability.git highavailability
 cd highavailability
-cp <traaittPlatformd> .
+cp <traaittCASHd> .
 sudo npm install & node service.js
 ```
 
-**It is highly recommended that you use [checkpoints](https://github.com/traaittplatform/traaittplatform/wiki/Using-checkpoints) when starting fresh or you'll need to wait a while for the sync to occur.**
+**It is highly recommended that you use [checkpoints](https://github.com/traaittcash/traaittcash/wiki/Using-checkpoints) when starting fresh or you'll need to wait a while for the sync to occur.**
 
 ## Keep it Running
 
@@ -52,7 +52,7 @@ npm install -g pm2
 pm2 startup
 pm2 install pm2-logrotate
 
-pm2 start service.js --name traaittplatformd
+pm2 start service.js --name traaittcashd
 pm2 save
 ```
 
@@ -60,11 +60,11 @@ pm2 save
 
 ### Initialization
 
-Practically all traaittPlatformd command line arguments are exposed in the constructor method. Simply include them in your list of options to get activate or use them. Default values are defined below.
+Practically all traaittCASHd command line arguments are exposed in the constructor method. Simply include them in your list of options to get activate or use them. Default values are defined below.
 
 ```javascript
-var daemon = new traaittPlatformd({
-  // These are our traaittPlatformd-ha options
+var daemon = new traaittCASHd({
+  // These are our traaittCASHd-ha options
   pollingInterval: 10000, // How often to check the daemon in milliseconds
   maxPollingFailures: 3, // How many polling intervals can fail before we emit a down event?
   checkHeight: true, // Check the daemon block height against known trusted nodes
@@ -76,16 +76,16 @@ var daemon = new traaittPlatformd({
   webSocketPassword: false, // Set this to a password to use for the privileged socket events.
 
   // These are the standard TurtleCoind options
-  path: './traaittPlatformd', // Where can I find TurtleCoind?
-  dataDir: '~/.traaittPlatform', // Where do you store your blockchain?
+  path: './traaittCASHd', // Where can I find TurtleCoind?
+  dataDir: '~/.traaittCASH', // Where do you store your blockchain?
   testnet: false, // Use the testnet?
   enableCors: false, // Enable CORS support for the domain in this value
   enableBlockExplorer: true, // Enable the block explorer
   loadCheckpoints: false, // If set to a path to a file, will supply that file to the daemon if it exists.
   rpcBindIp: '0.0.0.0', // What IP to bind the RPC server to
-  rpcBindPort: 23896, // What Port to bind the RPC server to
+  rpcBindPort: 23886, // What Port to bind the RPC server to
   p2pBindIp: '0.0.0.0', // What IP to bind the P2P network to
-  p2pBindPort: 23897, // What Port to bind the P2P network to
+  p2pBindPort: 23887, // What Port to bind the P2P network to
   p2pExternalPort: 0, // What External Port to bind the P2P network to for those behind NAT
   allowLocalIp: false, // Add our own IP to the peer list?
   peers: false, // Manually add the peer(s) to the list. Allows for a string or an Array of strings.

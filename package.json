@@ -1,7 +1,7 @@
 {
-  "name": "traaittplatform-ha",
+  "name": "traaittcash-ha",
   "version": "0.14.2",
-  "description": "Wraps the traaittplatform Daemon and helps keep the daemon synchronized and ready for connections.",
+  "description": "Wraps the traaittcash Daemon and helps keep the daemon synchronized and ready for connections.",
   "main": "index.js",
   "scripts": {
     "postinstall": "npm run checkpoints",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/brandonlehmann/turtlecoind-ha.git"
   },
   "keywords": [
-    "traaittplatform",
+    "traaittcash",
     "wrapper",
     "high-availability",
     "API",
@@ -28,7 +28,7 @@
     "sha256": "^0.2.0",
     "shelljs": "^0.8.3",
     "socket.io": "^2.2.0",
-    "traaittplatform-rpc": "^2.1.7"
+    "traaittcash-rpc": "^1.0.1"
   },
   "devDependencies": {
     "standard": "^13.1.0"

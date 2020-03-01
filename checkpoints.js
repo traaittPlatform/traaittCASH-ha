@@ -9,11 +9,11 @@ del('checkpoints.csv').then((msg) => {
   console.log(msg)
   console.log('Downloading latest checkpoints files...')
 
-  return download('https://checkpoints.traaittplatform.com/checkpoints.csv', 'checkpoints.csv')
+  return download('https://checkpoints.traaittcash.com/checkpoints.csv', 'checkpoints.csv')
 }).then((msg) => {
   console.log(msg)
 
-  return download('https://checkpoints.traaittplatform.com/checkpoints.csv', 'checkpoints.csv', true)
+  return download('https://checkpoints.traaittcash.com/checkpoints.csv', 'checkpoints.csv', true)
 }).then((msg) => {
   console.log(msg)
   console.log('')
