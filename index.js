@@ -60,7 +60,7 @@ const traaittCASHd = function (opts) {
   this.peers = opts.peers || false
   this.priorityNodes = opts.priorityNodes || false
   this.exclusiveNodes = opts.exclusiveNodes || false
-  this.seedNode = opts.seedNode || true
+  this.seedNode = opts.seedNode || false
   this.hideMyPort = (typeof opts.hideMyPort === 'undefined') ? true : opts.hideMyPort
   this.dbThreads = opts.dbThreads || false
   this.dbMaxOpenFiles = opts.dbMaxOpenFiles || false
