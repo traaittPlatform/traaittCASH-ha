@@ -50,7 +50,7 @@ const traaittCASHd = function (opts) {
   this.enableCors = opts.enableCors || "*"
   this.enableBlockExplorer = (typeof opts.enableBlockExplorer === 'undefined') ? true : opts.enableBlockExplorer
   this.enableBlockExplorerDetailed = (typeof opts.enableBlockExplorerDetailed === 'undefined') ? true : opts.enableBlockExplorerDetailed
-  this.loadCheckpoints = opts.loadCheckpoints || true
+  this.loadCheckpoints = opts.loadCheckpoints || false
   this.rpcBindIp = opts.rpcBindIp || '0.0.0.0'
   this.rpcBindPort = opts.rpcBindPort || 23886
   this.p2pBindIp = opts.p2pBindIp || false
