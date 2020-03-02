@@ -56,17 +56,17 @@ const traaittCASHd = function (opts) {
   this.p2pBindIp = opts.p2pBindIp || false
   this.p2pBindPort = opts.p2pBindPort || 23887
   this.p2pExternalPort = opts.p2pExternalPort || false
-  this.allowLocalIp = (typeof opts.allowLocalIp === 'undefined') ? true : opts.allowLocalIp
+  this.allowLocalIp = (typeof opts.allowLocalIp === 'undefined') ? false : opts.allowLocalIp
   this.peers = opts.peers || false
   this.priorityNodes = opts.priorityNodes || false
   this.exclusiveNodes = opts.exclusiveNodes || false
   this.seedNode = opts.seedNode || false
-  this.hideMyPort = (typeof opts.hideMyPort === 'undefined') ? true : opts.hideMyPort
+  this.hideMyPort = (typeof opts.hideMyPort === 'undefined') ? false : opts.hideMyPort
   this.dbThreads = opts.dbThreads || false
   this.dbMaxOpenFiles = opts.dbMaxOpenFiles || false
   this.dbWriteBufferSize = opts.dbWriteBufferSize || false
   this.dbReadBufferSize = opts.dbReadBufferSize || false
-  this.dbCompression = (typeof opts.dbCompression === 'undefined') ? true : opts.dbCompression
+  this.dbCompression = (typeof opts.dbCompression === 'undefined') ? false : opts.dbCompression
   this.feeAddress = opts.feeAddress || false
   this.feeAmount = opts.feeAmount || 0
 
