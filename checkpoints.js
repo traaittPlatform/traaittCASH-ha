@@ -13,7 +13,7 @@ del('checkpoints.csv').then((msg) => {
 }).then((msg) => {
   console.log(msg)
 
-  return download('https://checkpoints.traaittcash.com/checkpoints.csv', 'checkpoints.csv', true)
+  return download('https://checkpoints.traaittcash.com/checkpoints.csv', 'checkpoints.csv', false)
 }).then((msg) => {
   console.log(msg)
   console.log('')
